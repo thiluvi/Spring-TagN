@@ -6,6 +6,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
 import jakarta.validation.constraints.Size;
 
 @Entity // Avisa ao Spring: "Ei, transforme essa classe em uma tabela no banco!"
@@ -25,6 +27,10 @@ public class Usuario {
     @Column(nullable = false)
     @Size(min = 6, message = "A senha deve ter no mínimo 6 caracteres")
     private String senha;
+
+    @Enumerated(EnumType.STRING) // Salva no banco como texto ("USER" ou "ADMIN")
+    @Column(nullable = false)
+    private Role role = Role.USER; // Por padrão, todo novo usuário é um usuário comum
 
     // Construtor vazio (É obrigatório ter um para o banco de dados funcionar)
     public Usuario() {
@@ -62,5 +68,13 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
