@@ -24,13 +24,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Habilita o CORS
-            .csrf(csrf -> csrf.disable()) // Desabilita proteção para formulários web tradicionais (como usaremos React Native/API, não precisamos disso)
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**").permitAll() // Libera tudo que começar com /api/auth (Login e Cadastro)
-                .anyRequest().authenticated() // Bloqueia todo o resto
-            );
-        
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Habilita o CORS
+                .csrf(csrf -> csrf.disable()) // Desabilita proteção para formulários web tradicionais (como usaremos
+                                              // React Native/API, não precisamos disso)
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/auth/**").permitAll() // Libera tudo que começar com /api/auth (Login e
+                                                                     // Cadastro)
+                        .anyRequest().permitAll() // TODO: Voltar para .authenticated() no futuro. Temporariamente
+                                                  // liberado para testes.*****
+                );
+
         return http.build();
     }
 
