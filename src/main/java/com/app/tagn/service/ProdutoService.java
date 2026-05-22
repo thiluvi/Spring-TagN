@@ -29,6 +29,11 @@ public class ProdutoService {
         return produtoRepository.save(produto);
     }
 
+    // Salva uma lista de produtos
+    public List<Produto> salvarTodos(List<Produto> produtos) {
+        return produtoRepository.saveAll(produtos);
+    }
+
     // Deleta um produto pelo ID
     public void deletar(Long id) {
         produtoRepository.deleteById(id);

@@ -31,6 +31,9 @@ public class Produto {
     @Column(nullable = false) // Quantidade em estoque
     private Integer quantidade;
 
+    @Column(nullable = false) // Categoria do produto
+    private String categoria;
+
     // Construtor vazio exigido pelo JPA
     public Produto() {
     }
@@ -83,5 +86,13 @@ public class Produto {
 
     public void setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 }

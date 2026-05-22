@@ -29,4 +29,9 @@ public class ItemSacolaService {
     public void deletar(Long id) {
         itemSacolaRepository.deleteById(id);
     }
+
+    public void limparSacola(Long usuarioId) {
+        List<ItemSacola> itens = itemSacolaRepository.findByUsuarioId(usuarioId);
+        itemSacolaRepository.deleteAll(itens);
+    }
 }

@@ -39,6 +39,13 @@ public class ProdutoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(produtoSalvo); // 201 Created
     }
 
+    // POST /produtos/lote - Cria vários produtos em lote
+    @PostMapping("/lote")
+    public ResponseEntity<List<Produto>> criarEmLote(@RequestBody List<Produto> produtos) {
+        List<Produto> produtosSalvos = produtoService.salvarTodos(produtos);
+        return ResponseEntity.status(HttpStatus.CREATED).body(produtosSalvos); // 201 Created
+    }
+
     // PUT /produtos/{id} - Atualiza um produto existente
     @PutMapping("/{id}")
     public ResponseEntity<Produto> atualizar(@PathVariable Long id, @RequestBody Produto produtoAtualizado) {
@@ -52,6 +59,7 @@ public class ProdutoController {
             produto.setImagem(produtoAtualizado.getImagem());
             produto.setPreco(produtoAtualizado.getPreco());
             produto.setQuantidade(produtoAtualizado.getQuantidade());
+            produto.setCategoria(produtoAtualizado.getCategoria());
             
             return ResponseEntity.ok(produtoService.salvar(produto)); // 200 OK
         }

@@ -48,4 +48,28 @@ public class UsuarioService {
             throw new RuntimeException("E-mail ou palavra-passe incorretos!");
         }
     }
+
+    public Usuario atualizarUsuario(Long id, String nome, String senhaAtual, String novaSenha) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
+
+        if (nome != null && !nome.trim().isEmpty()) {
+            usuario.setNome(nome);
+        }
+
+        if (novaSenha != null && !novaSenha.trim().isEmpty()) {
+            if (senhaAtual == null || senhaAtual.trim().isEmpty()) {
+                throw new RuntimeException("A senha atual é necessária para alterar a senha.");
+            }
+            if (!passwordEncoder.matches(senhaAtual, usuario.getSenha())) {
+                throw new RuntimeException("Senha atual incorreta.");
+            }
+            if (novaSenha.length() < 6) {
+                throw new RuntimeException("A nova senha deve ter no mínimo 6 caracteres.");
+            }
+            usuario.setSenha(passwordEncoder.encode(novaSenha));
+        }
+
+        return usuarioRepository.save(usuario);
+    }
 }
