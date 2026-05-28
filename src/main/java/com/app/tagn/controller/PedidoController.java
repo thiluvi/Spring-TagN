@@ -17,9 +17,13 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @PostMapping
-    public ResponseEntity<Pedido> criarPedido(@RequestBody Pedido pedido) {
-        Pedido novoPedido = pedidoService.criarPedido(pedido);
-        return ResponseEntity.status(HttpStatus.CREATED).body(novoPedido);
+    public ResponseEntity<?> criarPedido(@RequestBody Pedido pedido) {
+        try {
+            Pedido novoPedido = pedidoService.criarPedido(pedido);
+            return ResponseEntity.status(HttpStatus.CREATED).body(novoPedido);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping("/usuario/{usuarioId}")
